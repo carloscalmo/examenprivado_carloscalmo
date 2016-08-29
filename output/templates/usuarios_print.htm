@@ -1,0 +1,294 @@
+<!doctype html>
+<html  {$html_attrs}>
+	<head>
+		<title>{$pagetitle}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link REL="stylesheet" href="styles/default.css" type="text/css">
+		{BEGIN rtlCSS}
+		<link REL="stylesheet" href="styles/defaultRTL.css" type="text/css">
+		{END rtlCSS}
+		{BEGIN styleCSSFiles}
+		<link REL="stylesheet" href="{$stylepath}" type="text/css">
+		{END styleCSSFiles}
+		{BEGIN pageCSSFiles}
+		<link REL="stylesheet" href="{$pagestylepath}" type="text/css">
+		{END pageCSSFiles}
+		<!--[if IE]>
+			<link REL="stylesheet" href="styles/defaultIE.css" type="text/css">
+			{BEGIN IEcssFiles}
+			<link REL="stylesheet" href="{$stylepathIE}" type="text/css">
+			{END IEcssFiles}
+		<![endif]-->
+	</head>
+	
+	<body class="{$stylename}" {$bodyattrs}>
+	{BEGIN body}
+		{$header}
+		<table   cellpadding="0" class="runner-toptable">
+			<tr class="runner-header">
+				<td class="runner-top" colspan=3>
+					
+
+{BEGIN container_master}
+<table class="runner-c runner-c-master" cellpadding="0" >
+<tr class="{$cheaderclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+{BEGIN mastertable_block}
+<td  class="runner-cc runner-bl runner-b-masterinfoprint" {$brickclass_masterinfoprint}><span>{$showmasterfile}
+</span></td>
+{END mastertable_block}
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_master}
+
+
+
+{BEGIN container_pdf}
+<table class="runner-c runner-c-pdf" cellpadding="0" >
+<tr class="{$cheaderclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+
+<td  class="runner-cc runner-bl runner-b-printpdf" {$brickclass_printpdf}><span>{BEGIN pdflink_block}
+<a href="#" class=pdflink {$pdflink_attrs}>Vista PDF</a>
+{END pdflink_block}
+</span></td>
+
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_pdf}
+
+
+				</td>
+			</tr>
+			<tr class="runner-body">
+				
+				<td class="runner-left {$blockclass_left}" >
+					
+				</td>	
+				
+				<td class="runner-center {$blockclass_center}">
+					
+
+{BEGIN container_grid}
+
+
+{BEGIN grid_block}
+{BEGIN page}
+<h1>Usuarios</h1>
+<span>
+{BEGIN page_number}
+Página {$pageno} / {$maxpages} 
+{END page_number}
+</span>
+
+	<div class="runner-s-grid">	
+	<table class="runner-c runner-c-grid" cellpadding="0">
+		<thead>
+		{BEGIN grid_header}
+		<tr class="runner-toprow style1">
+			<td class="runner-cl"><img src="images/spacer.gif"></td>
+			{BEGIN record_header}
+					{BEGIN Rol_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN Rol_fieldheader}
+	<b>Rol</b>
+	{END Rol_fieldheader}
+</th>
+{END Rol_fieldheadercolumn}
+	{BEGIN nombre_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN nombre_fieldheader}
+	<b>Nombre</b>
+	{END nombre_fieldheader}
+</th>
+{END nombre_fieldheadercolumn}
+	{BEGIN contrase_a_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN contrase_a_fieldheader}
+	<b>Contraseña</b>
+	{END contrase_a_fieldheader}
+</th>
+{END contrase_a_fieldheadercolumn}
+	{BEGIN empleado_id_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN empleado_id_fieldheader}
+	<b>Empleado</b>
+	{END empleado_id_fieldheader}
+</th>
+{END empleado_id_fieldheadercolumn}
+	{BEGIN fecha_inicio_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN fecha_inicio_fieldheader}
+	<b>Fecha de Inicio</b>
+	{END fecha_inicio_fieldheader}
+</th>
+{END fecha_inicio_fieldheadercolumn}
+	{BEGIN fecha_fin_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN fecha_fin_fieldheader}
+	<b>Fecha de Baja</b>
+	{END fecha_fin_fieldheader}
+</th>
+{END fecha_fin_fieldheadercolumn}
+	{BEGIN baja_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN baja_fieldheader}
+	<b>Baja</b>
+	{END baja_fieldheader}
+</th>
+{END baja_fieldheadercolumn}
+		
+			{END record_header}
+			<td class="runner-cr"><img src="images/spacer.gif"></td>
+			{BEGIN endrecordheader_block}
+			<td class="runner-cs">&nbsp;</td>
+			{END endrecordheader_block}
+		</tr>
+	{END grid_header}
+		</thead>
+		<tbody>	
+		{BEGIN grid_row}
+	<tr class="runner-row style1" {$rowattrs} {$rowstyle} {$rowstyle}>
+		<td class="runner-cl"></td>
+		{BEGIN grid_record}
+				{BEGIN Rol_fieldcolumn}
+<td  class="runner-cc {$Rol_class}" {$Rol_style}>
+	{$Rol_value}
+</td>
+{END Rol_fieldcolumn}
+	{BEGIN nombre_fieldcolumn}
+<td  class="runner-cc {$nombre_class}" {$nombre_style}>
+	{$nombre_value}
+</td>
+{END nombre_fieldcolumn}
+	{BEGIN contrase_a_fieldcolumn}
+<td  class="runner-cc {$contrase_a_class}" {$contrase_a_style}>
+	{$contrase_a_value}
+</td>
+{END contrase_a_fieldcolumn}
+	{BEGIN empleado_id_fieldcolumn}
+<td  class="runner-cc {$empleado_id_class}" {$empleado_id_style}>
+	{$empleado_id_value}
+</td>
+{END empleado_id_fieldcolumn}
+	{BEGIN fecha_inicio_fieldcolumn}
+<td  class="runner-cc {$fecha_inicio_class}" {$fecha_inicio_style}>
+	{$fecha_inicio_value}
+</td>
+{END fecha_inicio_fieldcolumn}
+	{BEGIN fecha_fin_fieldcolumn}
+<td  class="runner-cc {$fecha_fin_class}" {$fecha_fin_style}>
+	{$fecha_fin_value}
+</td>
+{END fecha_fin_fieldcolumn}
+	{BEGIN baja_fieldcolumn}
+<td  class="runner-cc {$baja_class}" {$baja_style}>
+	{$baja_value}
+</td>
+{END baja_fieldcolumn}
+
+		{END grid_record}
+		<td class="runner-cr"></td>
+		{BEGIN endrecord_block}
+		<td class="runner-cs">&nbsp;</td>
+		{END endrecord_block}
+	</tr>
+{END grid_row}
+										
+								<tr class="runner-bottomrow style1">
+									<td class="runner-cl"><img src="images/spacer.gif"></td>
+									{BEGIN record_footer}
+									{BEGIN Rol_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END Rol_fieldfootercolumn}
+{BEGIN nombre_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END nombre_fieldfootercolumn}
+{BEGIN contrase_a_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END contrase_a_fieldfootercolumn}
+{BEGIN empleado_id_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END empleado_id_fieldfootercolumn}
+{BEGIN fecha_inicio_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END fecha_inicio_fieldfootercolumn}
+{BEGIN fecha_fin_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END fecha_fin_fieldfootercolumn}
+{BEGIN baja_fieldfootercolumn}
+<td class="runner-cc runner-clast"></td>
+{END baja_fieldfootercolumn}
+
+									{END record_footer}
+									<td class="runner-cr"><img src="images/spacer.gif"></td>
+									{BEGIN endrecordtotals_block}
+									<td class="runner-cs"></td>
+									{END endrecordtotals_block}
+								</tr>
+
+		</tbody>
+	</table>
+</div>	
+{END page}
+
+{END grid_block}
+
+
+
+{END container_grid}
+
+
+				</td>	
+
+				<td class="runner-right {$blockclass_right}">
+					
+				</td>	
+			</tr>
+			<tr class="runner-footer">
+				<td class="runner-bottom" colspan=3>
+					<!--%%bottom%%-->
+				</td>
+			</tr>
+		</table>
+		{$footer}
+	{END body}
+	</body>
+</html>

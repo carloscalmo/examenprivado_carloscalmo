@@ -1,0 +1,73 @@
+<div class="searchOptions bottomPanelBorder" {$srchOpt_attrs}>
+	
+	<!-- Search panel content -->
+	<div class="srchCritTop" style="display: none;">
+		Criterio:&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$all_checkbox}> {BEGIN all_checkbox_label}todos{END all_checkbox_label}
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$any_checkbox}> {BEGIN any_checkbox_label}alguno{END any_checkbox_label}
+	</div>
+	
+	<div class="addOption">
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideControlChooseMenu{$id}" class="runner-button" {$showHideCtrls_attrs}>Añadir campo</a>
+		</span>
+		&nbsp;&nbsp;&nbsp;
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideSearchType{$id}" class="runner-button" {$showHideCtrlsOpt_attrs}>{$showHideOpt_mess}</a>
+		</span>
+	</div>
+	
+	<!-- choose controls div -->
+	<div class="runner-panel controlChooseMenu" {$controlChooseMenuDiv_attrs}>
+		{BEGIN addSearch__Factura_}
+			<a href="#" id="addSearchControl__Factura_" class="addSearchControl" {$addSearchControl__Factura__attrs}>&#39;Factura&#39;</a><br>
+		{END addSearch__Factura_}
+		{BEGIN addSearch__Fecha_}
+			<a href="#" id="addSearchControl__Fecha_" class="addSearchControl" {$addSearchControl__Fecha__attrs}>&#39;Fecha&#39;</a><br>
+		{END addSearch__Fecha_}
+		{BEGIN addSearch__M_dico_Responsable_}
+			<a href="#" id="addSearchControl__M_dico_Responsable_" class="addSearchControl" {$addSearchControl__M_dico_Responsable__attrs}>&#39;Médico Responsable&#39;</a><br>
+		{END addSearch__M_dico_Responsable_}
+		{BEGIN addSearch__Nombre_del_Medicamento_}
+			<a href="#" id="addSearchControl__Nombre_del_Medicamento_" class="addSearchControl" {$addSearchControl__Nombre_del_Medicamento__attrs}>&#39;Nombre del Medicamento&#39;</a><br>
+		{END addSearch__Nombre_del_Medicamento_}
+		{BEGIN addSearch__C_digo_del_Medicamento_}
+			<a href="#" id="addSearchControl__C_digo_del_Medicamento_" class="addSearchControl" {$addSearchControl__C_digo_del_Medicamento__attrs}>&#39;Código del Medicamento&#39;</a><br>
+		{END addSearch__C_digo_del_Medicamento_}
+		{BEGIN addSearch__Precio_unitario_}
+			<a href="#" id="addSearchControl__Precio_unitario_" class="addSearchControl" {$addSearchControl__Precio_unitario__attrs}>&#39;Precio Unitario&#39;</a><br>
+		{END addSearch__Precio_unitario_}
+		{BEGIN addSearch__Cantidad_}
+			<a href="#" id="addSearchControl__Cantidad_" class="addSearchControl" {$addSearchControl__Cantidad__attrs}>&#39;Cantidad&#39;</a><br>
+		{END addSearch__Cantidad_}
+		{BEGIN addSearch__Sub_Total_}
+			<a href="#" id="addSearchControl__Sub_Total_" class="addSearchControl" {$addSearchControl__Sub_Total__attrs}>&#39;Sub Total&#39;</a><br>
+		{END addSearch__Sub_Total_}
+	</div>
+	
+	<table class="controlsBlock">
+	{BEGIN searchCtrlBlock}
+		<tr class="srchPanelRow" {$filterRow_attrs}>
+			<td class="srchPanelCell">{$delCtrlButt}</td>
+			<td class="srchPanelCell">{$fLabel}:&nbsp;</td>
+			<td class="srchPanelCell srchPanelCell2">
+				<div class="runner-searchtype">{$searchtype}</div>
+				<div class="runner-searchcontrol">{$searchcontrol}</div>
+				<div class="runner-searchcontrol">{$searchcontrol1}</div>
+		</tr>
+	{END searchCtrlBlock}
+	</table>
+	
+	<div class="bottomSearchButt" align="left" {$bottomSearchButt_attrs}>
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" class="runner-button" {$searchbutton_attrs}>Buscar</a>
+		</span>
+	</div>
+</div>

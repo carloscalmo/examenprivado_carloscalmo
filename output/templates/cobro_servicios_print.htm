@@ -1,0 +1,234 @@
+<!doctype html>
+<html  {$html_attrs}>
+	<head>
+		<title>{$pagetitle}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link REL="stylesheet" href="styles/default.css" type="text/css">
+		{BEGIN rtlCSS}
+		<link REL="stylesheet" href="styles/defaultRTL.css" type="text/css">
+		{END rtlCSS}
+		{BEGIN styleCSSFiles}
+		<link REL="stylesheet" href="{$stylepath}" type="text/css">
+		{END styleCSSFiles}
+		{BEGIN pageCSSFiles}
+		<link REL="stylesheet" href="{$pagestylepath}" type="text/css">
+		{END pageCSSFiles}
+		<!--[if IE]>
+			<link REL="stylesheet" href="styles/defaultIE.css" type="text/css">
+			{BEGIN IEcssFiles}
+			<link REL="stylesheet" href="{$stylepathIE}" type="text/css">
+			{END IEcssFiles}
+		<![endif]-->
+	</head>
+	
+	<body class="{$stylename}" {$bodyattrs}>
+	{BEGIN body}
+		{$header}
+		<table   cellpadding="0" class="runner-toptable">
+			<tr class="runner-header">
+				<td class="runner-top" colspan=3>
+					
+
+
+
+{BEGIN container_pdf}
+<table class="runner-c runner-c-pdf" cellpadding="0" >
+<tr class="{$cheaderclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+
+<td  class="runner-cc runner-bl runner-b-printpdf" {$brickclass_printpdf}><span>{BEGIN pdflink_block}
+<a href="#" class=pdflink {$pdflink_attrs}>Vista PDF</a>
+{END pdflink_block}
+</span></td>
+
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_pdf}
+
+
+				</td>
+			</tr>
+			<tr class="runner-body">
+				
+				<td class="runner-left {$blockclass_left}" >
+					
+				</td>	
+				
+				<td class="runner-center {$blockclass_center}">
+					
+
+{BEGIN container_grid}
+
+
+{BEGIN grid_block}
+{BEGIN page}
+<h1>Cobro Servicios</h1>
+<span>
+{BEGIN page_number}
+Página {$pageno} / {$maxpages} 
+{END page_number}
+</span>
+
+	<div class="runner-s-grid">	
+	<table class="runner-c runner-c-grid" cellpadding="0">
+		<thead>
+		{BEGIN grid_header}
+		<tr class="runner-toprow style1">
+			<td class="runner-cl"><img src="images/spacer.gif"></td>
+			{BEGIN record_header}
+					{BEGIN _Factura__fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN _Factura__fieldheader}
+	<b>&#39;Factura&#39;</b>
+	{END _Factura__fieldheader}
+</th>
+{END _Factura__fieldheadercolumn}
+	{BEGIN _Fecha__fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN _Fecha__fieldheader}
+	<b>&#39;Fecha&#39;</b>
+	{END _Fecha__fieldheader}
+</th>
+{END _Fecha__fieldheadercolumn}
+	{BEGIN _M_dico_Responsable__fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN _M_dico_Responsable__fieldheader}
+	<b>&#39;Médico Responsable&#39;</b>
+	{END _M_dico_Responsable__fieldheader}
+</th>
+{END _M_dico_Responsable__fieldheadercolumn}
+	{BEGIN _Servicio_Contratado__fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN _Servicio_Contratado__fieldheader}
+	<b>&#39;Servicio Contratado&#39;</b>
+	{END _Servicio_Contratado__fieldheader}
+</th>
+{END _Servicio_Contratado__fieldheadercolumn}
+	{BEGIN _Precio__fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN _Precio__fieldheader}
+	<b>&#39;Precio&#39;</b>
+	{END _Precio__fieldheader}
+</th>
+{END _Precio__fieldheadercolumn}
+		
+			{END record_header}
+			<td class="runner-cr"><img src="images/spacer.gif"></td>
+			{BEGIN endrecordheader_block}
+			<td class="runner-cs">&nbsp;</td>
+			{END endrecordheader_block}
+		</tr>
+	{END grid_header}
+		</thead>
+		<tbody>	
+		{BEGIN grid_row}
+	<tr class="runner-row style1" {$rowattrs} {$rowstyle} {$rowstyle}>
+		<td class="runner-cl"></td>
+		{BEGIN grid_record}
+				{BEGIN _Factura__fieldcolumn}
+<td  class="runner-cc {$_Factura__class}" {$_Factura__style}>
+	{$_Factura__value}
+</td>
+{END _Factura__fieldcolumn}
+	{BEGIN _Fecha__fieldcolumn}
+<td  class="runner-cc {$_Fecha__class}" {$_Fecha__style}>
+	{$_Fecha__value}
+</td>
+{END _Fecha__fieldcolumn}
+	{BEGIN _M_dico_Responsable__fieldcolumn}
+<td  class="runner-cc {$_M_dico_Responsable__class}" {$_M_dico_Responsable__style}>
+	{$_M_dico_Responsable__value}
+</td>
+{END _M_dico_Responsable__fieldcolumn}
+	{BEGIN _Servicio_Contratado__fieldcolumn}
+<td  class="runner-cc {$_Servicio_Contratado__class}" {$_Servicio_Contratado__style}>
+	{$_Servicio_Contratado__value}
+</td>
+{END _Servicio_Contratado__fieldcolumn}
+	{BEGIN _Precio__fieldcolumn}
+<td  class="runner-cc {$_Precio__class}" {$_Precio__style}>
+	{$_Precio__value}
+</td>
+{END _Precio__fieldcolumn}
+
+		{END grid_record}
+		<td class="runner-cr"></td>
+		{BEGIN endrecord_block}
+		<td class="runner-cs">&nbsp;</td>
+		{END endrecord_block}
+	</tr>
+{END grid_row}
+										
+								<tr class="runner-bottomrow style1">
+									<td class="runner-cl"><img src="images/spacer.gif"></td>
+									{BEGIN record_footer}
+									{BEGIN _Factura__fieldfootercolumn}
+<td class="runner-cc "></td>
+{END _Factura__fieldfootercolumn}
+{BEGIN _Fecha__fieldfootercolumn}
+<td class="runner-cc "></td>
+{END _Fecha__fieldfootercolumn}
+{BEGIN _M_dico_Responsable__fieldfootercolumn}
+<td class="runner-cc "></td>
+{END _M_dico_Responsable__fieldfootercolumn}
+{BEGIN _Servicio_Contratado__fieldfootercolumn}
+<td class="runner-cc "></td>
+{END _Servicio_Contratado__fieldfootercolumn}
+{BEGIN _Precio__fieldfootercolumn}
+<td class="runner-cc runner-clast"></td>
+{END _Precio__fieldfootercolumn}
+
+									{END record_footer}
+									<td class="runner-cr"><img src="images/spacer.gif"></td>
+									{BEGIN endrecordtotals_block}
+									<td class="runner-cs"></td>
+									{END endrecordtotals_block}
+								</tr>
+
+		</tbody>
+	</table>
+</div>	
+{END page}
+
+{END grid_block}
+
+
+
+{END container_grid}
+
+
+				</td>	
+
+				<td class="runner-right {$blockclass_right}">
+					
+				</td>	
+			</tr>
+			<tr class="runner-footer">
+				<td class="runner-bottom" colspan=3>
+					<!--%%bottom%%-->
+				</td>
+			</tr>
+		</table>
+		{$footer}
+	{END body}
+	</body>
+</html>

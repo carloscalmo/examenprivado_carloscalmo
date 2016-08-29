@@ -1,0 +1,83 @@
+<div class="searchOptions bottomPanelBorder" {$srchOpt_attrs}>
+	<!-- Search panel content -->
+	<div class="srchCritTop" style="display: none;">
+		Criterio:&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$all_checkbox}> {BEGIN all_checkbox_label}todos{END all_checkbox_label}
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$any_checkbox}> {BEGIN any_checkbox_label}alguno{END any_checkbox_label}
+	</div>
+	
+	<div class="addOption">
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideControlChooseMenu{$id}" class="runner-button" {$showHideCtrls_attrs}>Añadir campo</a>
+		</span>
+		&nbsp;&nbsp;&nbsp;
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideSearchType{$id}" class="runner-button" {$showHideCtrlsOpt_attrs}>{$showHideOpt_mess}</a>
+		</span>
+	</div>
+	
+	<!-- choose controls div -->
+	<div class="runner-panel controlChooseMenu" {$controlChooseMenuDiv_attrs}>
+		{BEGIN addSearch_id}
+			<a href="#" id="addSearchControl_id" class="addSearchControl" {$addSearchControl_id_attrs}>Código personal</a><br>
+		{END addSearch_id}
+		{BEGIN addSearch__C_digo__nico_de_Identificaci_n_}
+			<a href="#" id="addSearchControl__C_digo__nico_de_Identificaci_n_" class="addSearchControl" {$addSearchControl__C_digo__nico_de_Identificaci_n__attrs}>Código Único de Identificación</a><br>
+		{END addSearch__C_digo__nico_de_Identificaci_n_}
+		{BEGIN addSearch__Paciente_}
+			<a href="#" id="addSearchControl__Paciente_" class="addSearchControl" {$addSearchControl__Paciente__attrs}>Paciente</a><br>
+		{END addSearch__Paciente_}
+		{BEGIN addSearch__NIT_}
+			<a href="#" id="addSearchControl__NIT_" class="addSearchControl" {$addSearchControl__NIT__attrs}>NIT</a><br>
+		{END addSearch__NIT_}
+		{BEGIN addSearch__Direcci_n_}
+			<a href="#" id="addSearchControl__Direcci_n_" class="addSearchControl" {$addSearchControl__Direcci_n__attrs}>Dirección</a><br>
+		{END addSearch__Direcci_n_}
+		{BEGIN addSearch__Tel_fono_}
+			<a href="#" id="addSearchControl__Tel_fono_" class="addSearchControl" {$addSearchControl__Tel_fono__attrs}>Teléfono</a><br>
+		{END addSearch__Tel_fono_}
+		{BEGIN addSearch__C_digo_de_consulta_}
+			<a href="#" id="addSearchControl__C_digo_de_consulta_" class="addSearchControl" {$addSearchControl__C_digo_de_consulta__attrs}>Código de consulta</a><br>
+		{END addSearch__C_digo_de_consulta_}
+		{BEGIN addSearch__fecha_}
+			<a href="#" id="addSearchControl__fecha_" class="addSearchControl" {$addSearchControl__fecha__attrs}>Fecha de consulta</a><br>
+		{END addSearch__fecha_}
+		{BEGIN addSearch__Tipo_de_consulta_}
+			<a href="#" id="addSearchControl__Tipo_de_consulta_" class="addSearchControl" {$addSearchControl__Tipo_de_consulta__attrs}>Tipo de consulta</a><br>
+		{END addSearch__Tipo_de_consulta_}
+		{BEGIN addSearch__M_dico_Encargado_}
+			<a href="#" id="addSearchControl__M_dico_Encargado_" class="addSearchControl" {$addSearchControl__M_dico_Encargado__attrs}>Médico Encargado</a><br>
+		{END addSearch__M_dico_Encargado_}
+		{BEGIN addSearch__N_mero_de_Factura_}
+			<a href="#" id="addSearchControl__N_mero_de_Factura_" class="addSearchControl" {$addSearchControl__N_mero_de_Factura__attrs}>Número de Factura</a><br>
+		{END addSearch__N_mero_de_Factura_}
+		{BEGIN addSearch__Costo_de_los_Servicios_}
+			<a href="#" id="addSearchControl__Costo_de_los_Servicios_" class="addSearchControl" {$addSearchControl__Costo_de_los_Servicios__attrs}>Costo de los Servicios</a><br>
+		{END addSearch__Costo_de_los_Servicios_}
+		{BEGIN addSearch__Total_Abonado_}
+			<a href="#" id="addSearchControl__Total_Abonado_" class="addSearchControl" {$addSearchControl__Total_Abonado__attrs}>Total Abonado</a><br>
+		{END addSearch__Total_Abonado_}
+	</div>
+	
+	<div class="controlsBlock">
+		{BEGIN searchCtrlBlock}
+		<div class="srchPanelRow" {$filterRow_attrs}>
+			<div class="srchPanelCell">{$delCtrlButt}&nbsp;{$fLabel}:&nbsp;</div>
+			<div class="srchPanelCell srchPanelCell2">{$searchtype} {$searchcontrol} {$searchcontrol1}</div>
+		</div>
+		{END searchCtrlBlock}
+	</div>
+		
+	<div class="bottomSearchButt" align="left" {$bottomSearchButt_attrs}>
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" class="runner-button" {$searchbutton_attrs}>Buscar</a>
+		</span>
+	</div>
+</div>

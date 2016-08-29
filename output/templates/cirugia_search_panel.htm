@@ -1,0 +1,67 @@
+<div class="searchOptions bottomPanelBorder" {$srchOpt_attrs}>
+	
+	<!-- Search panel content -->
+	<div class="srchCritTop" style="display: none;">
+		Criterio:&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$all_checkbox}> {BEGIN all_checkbox_label}todos{END all_checkbox_label}
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$any_checkbox}> {BEGIN any_checkbox_label}alguno{END any_checkbox_label}
+	</div>
+	
+	<div class="addOption">
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideControlChooseMenu{$id}" class="runner-button" {$showHideCtrls_attrs}>Añadir campo</a>
+		</span>
+		&nbsp;&nbsp;&nbsp;
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideSearchType{$id}" class="runner-button" {$showHideCtrlsOpt_attrs}>{$showHideOpt_mess}</a>
+		</span>
+	</div>
+	
+	<!-- choose controls div -->
+	<div class="runner-panel controlChooseMenu" {$controlChooseMenuDiv_attrs}>
+		{BEGIN addSearch_id}
+			<a href="#" id="addSearchControl_id" class="addSearchControl" {$addSearchControl_id_attrs}>Código</a><br>
+		{END addSearch_id}
+		{BEGIN addSearch_idtipo_cirugia}
+			<a href="#" id="addSearchControl_idtipo_cirugia" class="addSearchControl" {$addSearchControl_idtipo_cirugia_attrs}>Tipo de Cirugía</a><br>
+		{END addSearch_idtipo_cirugia}
+		{BEGIN addSearch_consulta_id}
+			<a href="#" id="addSearchControl_consulta_id" class="addSearchControl" {$addSearchControl_consulta_id_attrs}>Paciente</a><br>
+		{END addSearch_consulta_id}
+		{BEGIN addSearch_fecha}
+			<a href="#" id="addSearchControl_fecha" class="addSearchControl" {$addSearchControl_fecha_attrs}>Fecha</a><br>
+		{END addSearch_fecha}
+		{BEGIN addSearch_encargado}
+			<a href="#" id="addSearchControl_encargado" class="addSearchControl" {$addSearchControl_encargado_attrs}>Encargado</a><br>
+		{END addSearch_encargado}
+		{BEGIN addSearch_ambiente_id}
+			<a href="#" id="addSearchControl_ambiente_id" class="addSearchControl" {$addSearchControl_ambiente_id_attrs}>Tipo de Ambiente</a><br>
+		{END addSearch_ambiente_id}
+	</div>
+	
+	<table class="controlsBlock">
+	{BEGIN searchCtrlBlock}
+		<tr class="srchPanelRow" {$filterRow_attrs}>
+			<td class="srchPanelCell">{$delCtrlButt}</td>
+			<td class="srchPanelCell">{$fLabel}:&nbsp;</td>
+			<td class="srchPanelCell srchPanelCell2">
+				<div class="runner-searchtype">{$searchtype}</div>
+				<div class="runner-searchcontrol">{$searchcontrol}</div>
+				<div class="runner-searchcontrol">{$searchcontrol1}</div>
+		</tr>
+	{END searchCtrlBlock}
+	</table>
+	
+	<div class="bottomSearchButt" align="left" {$bottomSearchButt_attrs}>
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" class="runner-button" {$searchbutton_attrs}>Buscar</a>
+		</span>
+	</div>
+</div>

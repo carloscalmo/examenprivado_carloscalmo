@@ -1,0 +1,279 @@
+<!doctype html>
+<html  {$html_attrs}>
+	<head>
+		<title>{$pagetitle}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link REL="stylesheet" href="styles/default.css" type="text/css">
+		{BEGIN rtlCSS}
+		<link REL="stylesheet" href="styles/defaultRTL.css" type="text/css">
+		{END rtlCSS}
+		{BEGIN styleCSSFiles}
+		<link REL="stylesheet" href="{$stylepath}" type="text/css">
+		{END styleCSSFiles}
+		{BEGIN pageCSSFiles}
+		<link REL="stylesheet" href="{$pagestylepath}" type="text/css">
+		{END pageCSSFiles}
+		<!--[if IE]>
+			<link REL="stylesheet" href="styles/defaultIE.css" type="text/css">
+			{BEGIN IEcssFiles}
+			<link REL="stylesheet" href="{$stylepathIE}" type="text/css">
+			{END IEcssFiles}
+		<![endif]-->
+	</head>
+	
+	<body class="{$stylename}" {$bodyattrs}>
+	{BEGIN body}
+		{$header}
+		<table   cellpadding="0" class="runner-toptable">
+			<tr class="runner-header">
+				<td class="runner-top" colspan=3>
+					
+
+{BEGIN container_master}
+<table class="runner-c runner-c-master" cellpadding="0" >
+<tr class="{$cheaderclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+{BEGIN mastertable_block}
+<td  class="runner-cc runner-bl runner-b-masterinfoprint" {$brickclass_masterinfoprint}><span>{$showmasterfile}
+</span></td>
+{END mastertable_block}
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_master}
+
+
+
+{BEGIN container_pdf}
+<table class="runner-c runner-c-pdf" cellpadding="0" >
+<tr class="{$cheaderclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+
+<td  class="runner-cc runner-bl runner-b-printpdf" {$brickclass_printpdf}><span>{BEGIN pdflink_block}
+<a href="#" class=pdflink {$pdflink_attrs}>Vista PDF</a>
+{END pdflink_block}
+</span></td>
+
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_pdf}
+
+
+				</td>
+			</tr>
+			<tr class="runner-body">
+				
+				<td class="runner-left {$blockclass_left}" >
+					
+				</td>	
+				
+				<td class="runner-center {$blockclass_center}">
+					
+
+{BEGIN container_grid}
+
+
+{BEGIN grid_block}
+{BEGIN page}
+<h1>Detalle Compra</h1>
+<span>
+{BEGIN page_number}
+Página {$pageno} / {$maxpages} 
+{END page_number}
+</span>
+
+	<div class="runner-s-grid">	
+	<table class="runner-c runner-c-grid" cellpadding="0">
+		<thead>
+		{BEGIN grid_header}
+		<tr class="runner-toprow style1">
+			<td class="runner-cl"><img src="images/spacer.gif"></td>
+			{BEGIN record_header}
+					{BEGIN id_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN id_fieldheader}
+	<b>Código</b>
+	{END id_fieldheader}
+</th>
+{END id_fieldheadercolumn}
+	{BEGIN producto_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN producto_fieldheader}
+	<b>Producto</b>
+	{END producto_fieldheader}
+</th>
+{END producto_fieldheadercolumn}
+	{BEGIN lote_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN lote_fieldheader}
+	<b>Lote</b>
+	{END lote_fieldheader}
+</th>
+{END lote_fieldheadercolumn}
+	{BEGIN cantidad_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN cantidad_fieldheader}
+	<b>Cantidad</b>
+	{END cantidad_fieldheader}
+</th>
+{END cantidad_fieldheadercolumn}
+	{BEGIN factura_compra_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN factura_compra_fieldheader}
+	<b>Factura de Compra</b>
+	{END factura_compra_fieldheader}
+</th>
+{END factura_compra_fieldheadercolumn}
+	{BEGIN costo_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN costo_fieldheader}
+	<b>Costo</b>
+	{END costo_fieldheader}
+</th>
+{END costo_fieldheadercolumn}
+		
+			{END record_header}
+			<td class="runner-cr"><img src="images/spacer.gif"></td>
+			{BEGIN endrecordheader_block}
+			<td class="runner-cs">&nbsp;</td>
+			{END endrecordheader_block}
+		</tr>
+	{END grid_header}
+		</thead>
+		<tbody>	
+		{BEGIN grid_row}
+	<tr class="runner-row style1" {$rowattrs} {$rowstyle} {$rowstyle}>
+		<td class="runner-cl"></td>
+		{BEGIN grid_record}
+				{BEGIN id_fieldcolumn}
+<td  class="runner-cc {$id_class}" {$id_style}>
+	{$id_value}
+</td>
+{END id_fieldcolumn}
+	{BEGIN producto_fieldcolumn}
+<td  class="runner-cc {$producto_class}" {$producto_style}>
+	{$producto_value}
+</td>
+{END producto_fieldcolumn}
+	{BEGIN lote_fieldcolumn}
+<td  class="runner-cc {$lote_class}" {$lote_style}>
+	{$lote_value}
+</td>
+{END lote_fieldcolumn}
+	{BEGIN cantidad_fieldcolumn}
+<td  class="runner-cc {$cantidad_class}" {$cantidad_style}>
+	{$cantidad_value}
+</td>
+{END cantidad_fieldcolumn}
+	{BEGIN factura_compra_fieldcolumn}
+<td  class="runner-cc {$factura_compra_class}" {$factura_compra_style}>
+	{$factura_compra_value}
+</td>
+{END factura_compra_fieldcolumn}
+	{BEGIN costo_fieldcolumn}
+<td  class="runner-cc {$costo_class}" {$costo_style}>
+	{$costo_value}
+</td>
+{END costo_fieldcolumn}
+
+		{END grid_record}
+		<td class="runner-cr"></td>
+		{BEGIN endrecord_block}
+		<td class="runner-cs">&nbsp;</td>
+		{END endrecord_block}
+	</tr>
+{END grid_row}
+										
+								<tr class="runner-bottomrow style1">
+									<td class="runner-cl"><img src="images/spacer.gif"></td>
+									{BEGIN record_footer}
+									{BEGIN id_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END id_fieldfootercolumn}
+{BEGIN producto_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END producto_fieldfootercolumn}
+{BEGIN lote_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END lote_fieldfootercolumn}
+{BEGIN cantidad_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END cantidad_fieldfootercolumn}
+{BEGIN factura_compra_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END factura_compra_fieldfootercolumn}
+{BEGIN costo_fieldfootercolumn}
+<td class="runner-cc runner-clast"></td>
+{END costo_fieldfootercolumn}
+
+									{END record_footer}
+									<td class="runner-cr"><img src="images/spacer.gif"></td>
+									{BEGIN endrecordtotals_block}
+									<td class="runner-cs"></td>
+									{END endrecordtotals_block}
+								</tr>
+
+		</tbody>
+	</table>
+</div>	
+{END page}
+
+{END grid_block}
+
+
+
+{END container_grid}
+
+
+				</td>	
+
+				<td class="runner-right {$blockclass_right}">
+					
+				</td>	
+			</tr>
+			<tr class="runner-footer">
+				<td class="runner-bottom" colspan=3>
+					<!--%%bottom%%-->
+				</td>
+			</tr>
+		</table>
+		{$footer}
+	{END body}
+	</body>
+</html>

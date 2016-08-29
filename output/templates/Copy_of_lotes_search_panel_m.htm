@@ -1,0 +1,77 @@
+<div class="searchOptions bottomPanelBorder" {$srchOpt_attrs}>
+	<!-- Search panel content -->
+	<div class="srchCritTop" style="display: none;">
+		Criterio:&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$all_checkbox}> {BEGIN all_checkbox_label}todos{END all_checkbox_label}
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$any_checkbox}> {BEGIN any_checkbox_label}alguno{END any_checkbox_label}
+	</div>
+	
+	<div class="addOption">
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideControlChooseMenu{$id}" class="runner-button" {$showHideCtrls_attrs}>Añadir campo</a>
+		</span>
+		&nbsp;&nbsp;&nbsp;
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideSearchType{$id}" class="runner-button" {$showHideCtrlsOpt_attrs}>{$showHideOpt_mess}</a>
+		</span>
+	</div>
+	
+	<!-- choose controls div -->
+	<div class="runner-panel controlChooseMenu" {$controlChooseMenuDiv_attrs}>
+		{BEGIN addSearch_id}
+			<a href="#" id="addSearchControl_id" class="addSearchControl" {$addSearchControl_id_attrs}>Id</a><br>
+		{END addSearch_id}
+		{BEGIN addSearch_codigo}
+			<a href="#" id="addSearchControl_codigo" class="addSearchControl" {$addSearchControl_codigo_attrs}>Codigo</a><br>
+		{END addSearch_codigo}
+		{BEGIN addSearch_produccion}
+			<a href="#" id="addSearchControl_produccion" class="addSearchControl" {$addSearchControl_produccion_attrs}>Produccion</a><br>
+		{END addSearch_produccion}
+		{BEGIN addSearch_caducidad}
+			<a href="#" id="addSearchControl_caducidad" class="addSearchControl" {$addSearchControl_caducidad_attrs}>Caducidad</a><br>
+		{END addSearch_caducidad}
+		{BEGIN addSearch_expirado}
+			<a href="#" id="addSearchControl_expirado" class="addSearchControl" {$addSearchControl_expirado_attrs}>Expirado</a><br>
+		{END addSearch_expirado}
+		{BEGIN addSearch_cantidad}
+			<a href="#" id="addSearchControl_cantidad" class="addSearchControl" {$addSearchControl_cantidad_attrs}>Cantidad</a><br>
+		{END addSearch_cantidad}
+		{BEGIN addSearch_precio}
+			<a href="#" id="addSearchControl_precio" class="addSearchControl" {$addSearchControl_precio_attrs}>Precio</a><br>
+		{END addSearch_precio}
+		{BEGIN addSearch_costo}
+			<a href="#" id="addSearchControl_costo" class="addSearchControl" {$addSearchControl_costo_attrs}>Costo</a><br>
+		{END addSearch_costo}
+		{BEGIN addSearch_nombre}
+			<a href="#" id="addSearchControl_nombre" class="addSearchControl" {$addSearchControl_nombre_attrs}>Nombre</a><br>
+		{END addSearch_nombre}
+		{BEGIN addSearch_codigo_insumo}
+			<a href="#" id="addSearchControl_codigo_insumo" class="addSearchControl" {$addSearchControl_codigo_insumo_attrs}>Codigo Insumo</a><br>
+		{END addSearch_codigo_insumo}
+		{BEGIN addSearch_proveedor}
+			<a href="#" id="addSearchControl_proveedor" class="addSearchControl" {$addSearchControl_proveedor_attrs}>Proveedor</a><br>
+		{END addSearch_proveedor}
+	</div>
+	
+	<div class="controlsBlock">
+		{BEGIN searchCtrlBlock}
+		<div class="srchPanelRow" {$filterRow_attrs}>
+			<div class="srchPanelCell">{$delCtrlButt}&nbsp;{$fLabel}:&nbsp;</div>
+			<div class="srchPanelCell srchPanelCell2">{$searchtype} {$searchcontrol} {$searchcontrol1}</div>
+		</div>
+		{END searchCtrlBlock}
+	</div>
+		
+	<div class="bottomSearchButt" align="left" {$bottomSearchButt_attrs}>
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" class="runner-button" {$searchbutton_attrs}>Buscar</a>
+		</span>
+	</div>
+</div>

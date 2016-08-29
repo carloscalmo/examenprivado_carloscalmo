@@ -1,0 +1,67 @@
+<div class="searchOptions bottomPanelBorder" {$srchOpt_attrs}>
+	
+	<!-- Search panel content -->
+	<div class="srchCritTop" style="display: none;">
+		Criterio:&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$all_checkbox}> {BEGIN all_checkbox_label}todos{END all_checkbox_label}
+		&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="srchType" class="runner-radio-button" {$any_checkbox}> {BEGIN any_checkbox_label}alguno{END any_checkbox_label}
+	</div>
+	
+	<div class="addOption">
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideControlChooseMenu{$id}" class="runner-button" {$showHideCtrls_attrs}>Añadir campo</a>
+		</span>
+		&nbsp;&nbsp;&nbsp;
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" id="showHideSearchType{$id}" class="runner-button" {$showHideCtrlsOpt_attrs}>{$showHideOpt_mess}</a>
+		</span>
+	</div>
+	
+	<!-- choose controls div -->
+	<div class="runner-panel controlChooseMenu" {$controlChooseMenuDiv_attrs}>
+		{BEGIN addSearch__Factura_}
+			<a href="#" id="addSearchControl__Factura_" class="addSearchControl" {$addSearchControl__Factura__attrs}>Factura</a><br>
+		{END addSearch__Factura_}
+		{BEGIN addSearch__Fecha_de_Ingreso_}
+			<a href="#" id="addSearchControl__Fecha_de_Ingreso_" class="addSearchControl" {$addSearchControl__Fecha_de_Ingreso__attrs}>Fecha de Ingreso</a><br>
+		{END addSearch__Fecha_de_Ingreso_}
+		{BEGIN addSearch__Dias_de_estancia_}
+			<a href="#" id="addSearchControl__Dias_de_estancia_" class="addSearchControl" {$addSearchControl__Dias_de_estancia__attrs}>Dias de estancia</a><br>
+		{END addSearch__Dias_de_estancia_}
+		{BEGIN addSearch__Ambiente_}
+			<a href="#" id="addSearchControl__Ambiente_" class="addSearchControl" {$addSearchControl__Ambiente__attrs}>Ambiente</a><br>
+		{END addSearch__Ambiente_}
+		{BEGIN addSearch__Costo_diario_}
+			<a href="#" id="addSearchControl__Costo_diario_" class="addSearchControl" {$addSearchControl__Costo_diario__attrs}>Costo Diario</a><br>
+		{END addSearch__Costo_diario_}
+		{BEGIN addSearch__Total_}
+			<a href="#" id="addSearchControl__Total_" class="addSearchControl" {$addSearchControl__Total__attrs}>Total</a><br>
+		{END addSearch__Total_}
+	</div>
+	
+	<table class="controlsBlock">
+	{BEGIN searchCtrlBlock}
+		<tr class="srchPanelRow" {$filterRow_attrs}>
+			<td class="srchPanelCell">{$delCtrlButt}</td>
+			<td class="srchPanelCell">{$fLabel}:&nbsp;</td>
+			<td class="srchPanelCell srchPanelCell2">
+				<div class="runner-searchtype">{$searchtype}</div>
+				<div class="runner-searchcontrol">{$searchcontrol}</div>
+				<div class="runner-searchcontrol">{$searchcontrol1}</div>
+		</tr>
+	{END searchCtrlBlock}
+	</table>
+	
+	<div class="bottomSearchButt" align="left" {$bottomSearchButt_attrs}>
+		<span class="runner-btnframe">
+		<span class="runner-btnleft"></span>
+		<span class="runner-btnright"></span>
+		<a href="#" class="runner-button" {$searchbutton_attrs}>Buscar</a>
+		</span>
+	</div>
+</div>

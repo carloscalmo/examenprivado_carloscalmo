@@ -1,0 +1,629 @@
+<?php
+@ini_set("display_errors","1");
+@ini_set("display_startup_errors","1");
+
+include("include/dbcommon.php");
+include("classes/searchclause.php");
+
+add_nocache_headers();
+
+include("include/Estado_de_cuenta_de_los_pacientes_variables.php");
+
+if(!isLogged())
+{ 
+	$_SESSION["MyURL"]=$_SERVER["SCRIPT_NAME"]."?".$_SERVER["QUERY_STRING"];
+	header("Location: login.php?message=expired"); 
+	return;
+}
+if(CheckPermissionsEvent($strTableName, 'P') && !CheckSecurity(@$_SESSION["_".$strTableName."_OwnerID"],"Export"))
+{
+	echo "<p>"."No tiene permiso para acceder a esta tabla"."<a href=\"login.php\">"."Regresar a la página de conexión"."</a></p>";
+	return;
+}
+
+$layout = new TLayout("print","Rounded1BlueWave","MobileBlueWave");
+$layout->blocks["center"] = array();
+$layout->containers["grid"] = array();
+
+$layout->containers["grid"][] = array("name"=>"printgrid","block"=>"grid_block","substyle"=>1);
+
+
+$layout->skins["grid"] = "empty";
+$layout->blocks["center"][] = "grid";$layout->blocks["top"] = array();
+$layout->skins["master"] = "empty";
+$layout->blocks["top"][] = "master";
+$layout->containers["pdf"] = array();
+
+$layout->containers["pdf"][] = array("name"=>"printpdf","block"=>"","substyle"=>1);
+
+
+$layout->skins["pdf"] = "empty";
+$layout->blocks["top"][] = "pdf";$page_layouts["Estado_de_cuenta_de_los_pacientes_print"] = $layout;
+
+
+include('include/xtempl.php');
+include('classes/runnerpage.php');
+
+$cipherer = new RunnerCipherer($strTableName);
+
+$xt = new Xtempl();
+$id = postvalue("id") != "" ? postvalue("id") : 1;
+$all = postvalue("all");
+$pageName = "print.php";
+
+//array of params for classes
+$params = array("id" => $id,
+				"tName" => $strTableName,
+				"pageType" => PAGE_PRINT);
+$params["xt"] = &$xt;
+			
+$pageObject = new RunnerPage($params);
+
+// add button events if exist
+$pageObject->addButtonHandlers();
+
+// Modify query: remove blob fields from fieldlist.
+// Blob fields on a print page are shown using imager.php (for example).
+// They don't need to be selected from DB in print.php itself.
+$noBlobReplace = false;
+if(!postvalue("pdf") && !$noBlobReplace)
+	$gQuery->ReplaceFieldsWithDummies($pageObject->pSet->getBinaryFieldsIndices());
+
+//	Before Process event
+if($eventObj->exists("BeforeProcessPrint"))
+	$eventObj->BeforeProcessPrint($conn, $pageObject);
+
+$strWhereClause="";
+$strHavingClause="";
+$strSearchCriteria="and";
+
+$selected_recs=array();
+if (@$_REQUEST["a"]!="") 
+{
+	$sWhere = "1=0";	
+	
+//	process selection
+	if (@$_REQUEST["mdelete"])
+	{
+		foreach(@$_REQUEST["mdelete"] as $ind)
+		{
+			$keys=array();
+			$keys["id"]=refine($_REQUEST["mdelete1"][mdeleteIndex($ind)]);
+			$selected_recs[]=$keys;
+		}
+	}
+	elseif(@$_REQUEST["selection"])
+	{
+		foreach(@$_REQUEST["selection"] as $keyblock)
+		{
+			$arr=explode("&",refine($keyblock));
+			if(count($arr)<1)
+				continue;
+			$keys=array();
+			$keys["id"]=urldecode($arr[0]);
+			$selected_recs[]=$keys;
+		}
+	}
+
+	foreach($selected_recs as $keys)
+	{
+		$sWhere = $sWhere . " or ";
+		$sWhere.=KeyWhere($keys);
+	}
+	$strSQL = $gQuery->gSQLWhere($sWhere);
+	$strWhereClause=$sWhere;
+}
+else
+{
+	$strWhereClause=@$_SESSION[$strTableName."_where"];
+	$strHavingClause=@$_SESSION[$strTableName."_having"];
+	$strSearchCriteria=@$_SESSION[$strTableName."_criteria"];
+	$strSQL = $gQuery->gSQLWhere($strWhereClause, $strHavingClause, $strSearchCriteria);
+}
+if(postvalue("pdf"))
+	$strWhereClause = @$_SESSION[$strTableName."_pdfwhere"];
+
+$_SESSION[$strTableName."_pdfwhere"] = $strWhereClause;
+
+
+$strOrderBy = $_SESSION[$strTableName."_order"];
+if(!$strOrderBy)
+	$strOrderBy=$gstrOrderBy;
+$strSQL.=" ".trim($strOrderBy);
+
+$strSQLbak = $strSQL;
+if($eventObj->exists("BeforeQueryPrint"))
+	$eventObj->BeforeQueryPrint($strSQL,$strWhereClause,$strOrderBy, $pageObject);
+
+//	Rebuild SQL if needed
+
+if($strSQL!=$strSQLbak)
+{
+//	changed $strSQL - old style	
+	$numrows=GetRowCount($strSQL);
+}
+else
+{
+	$strSQL = $gQuery->gSQLWhere($strWhereClause, $strHavingClause, $strSearchCriteria);
+	$strSQL.=" ".trim($strOrderBy);
+	
+	$rowcount=false;
+	if($eventObj->exists("ListGetRowCount"))
+	{
+		$masterKeysReq=array();
+		for($i = 0; $i < count($pageObject->detailKeysByM); $i ++)
+			$masterKeysReq[]=$_SESSION[$strTableName."_masterkey".($i + 1)];
+			$rowcount=$eventObj->ListGetRowCount($pageObject->searchClauseObj,$_SESSION[$strTableName."_mastertable"],$masterKeysReq,$selected_recs, $pageObject);
+	}
+	if($rowcount!==false)
+		$numrows=$rowcount;
+	else
+	{
+		$numrows = $gQuery->gSQLRowCount($strWhereClause, $strHavingClause, $strSearchCriteria);
+	}
+}
+
+LogInfo($strSQL);
+
+$mypage=(integer)$_SESSION[$strTableName."_pagenumber"];
+if(!$mypage)
+	$mypage=1;
+
+//	page size
+$PageSize=(integer)$_SESSION[$strTableName."_pagesize"];
+if(!$PageSize)
+	$PageSize = $pageObject->pSet->getInitialPageSize();
+
+if($PageSize<0)
+	$all = 1;	
+	
+$recno = 1;
+$records = 0;	
+$maxpages = 1;
+$pageindex = 1;
+$pageno=1;
+
+// build arrays for sort (to support old code in user-defined events)
+if($eventObj->exists("ListQuery"))
+{
+	$arrFieldForSort = array();
+	$arrHowFieldSort = array();
+	require_once getabspath('classes/orderclause.php');
+	$fieldList = unserialize($_SESSION[$strTableName."_orderFieldsList"]);
+	for($i = 0; $i < count($fieldList); $i++)
+	{
+		$arrFieldForSort[] = $fieldList[$i]->fieldIndex; 
+		$arrHowFieldSort[] = $fieldList[$i]->orderDirection; 
+	}
+}
+
+if(!$all)
+{	
+	if($numrows)
+	{
+		$maxRecords = $numrows;
+		$maxpages = ceil($maxRecords/$PageSize);
+					
+		if($mypage > $maxpages)
+			$mypage = $maxpages;
+		
+		if($mypage < 1) 
+			$mypage = 1;
+		
+		$maxrecs = $PageSize;
+	}
+	$listarray = false;
+	if($eventObj->exists("ListQuery"))
+		$listarray = $eventObj->ListQuery($pageObject->searchClauseObj, $arrFieldForSort, $arrHowFieldSort, 
+			$_SESSION[$strTableName."_mastertable"], $masterKeysReq, $selected_recs, $PageSize, $mypage, $pageObject);
+	if($listarray!==false)
+		$rs = $listarray;
+	else
+	{
+			if($numrows)
+		{
+			$strSQL.=" limit ".(($mypage-1)*$PageSize).",".$PageSize;
+		}
+		$rs = db_query($strSQL,$conn);
+	}
+	
+	//	hide colunm headers if needed
+	$recordsonpage = $numrows-($mypage-1)*$PageSize;
+	if($recordsonpage>$PageSize)
+		$recordsonpage = $PageSize;
+		
+	$xt->assign("page_number",true);
+	$xt->assign("maxpages",$maxpages);
+	$xt->assign("pageno",$mypage);
+}
+else
+{
+	$listarray = false;
+	if($eventObj->exists("ListQuery"))
+		$listarray=$eventObj->ListQuery($pageObject->searchClauseObj, $arrFieldForSort, $arrHowFieldSort,
+			$_SESSION[$strTableName."_mastertable"], $masterKeysReq, $selected_recs, $PageSize, $mypage, $pageObject);
+	if($listarray!==false)
+		$rs = $listarray;
+	else
+		$rs = db_query($strSQL,$conn);
+	$recordsonpage = $numrows;
+	$maxpages = ceil($recordsonpage/30);
+	$xt->assign("page_number",true);
+	$xt->assign("maxpages",$maxpages);
+}
+
+
+$fieldsArr = array();
+$arr = array();
+$arr['fName'] = "id";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("id");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Código Único de Identificación'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Código Único de Identificación'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Paciente'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Paciente'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'NIT'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'NIT'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Dirección'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Dirección'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Teléfono'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Teléfono'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Código de consulta'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Código de consulta'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'fecha'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'fecha'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Tipo de consulta'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Tipo de consulta'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Médico Encargado'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Médico Encargado'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Número de Factura'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Número de Factura'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Costo de los Servicios'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Costo de los Servicios'");
+$fieldsArr[] = $arr;
+$arr = array();
+$arr['fName'] = "'Total Abonado'";
+$arr['viewFormat'] = $pageObject->pSet->getViewFormat("'Total Abonado'");
+$fieldsArr[] = $arr;
+$pageObject->setGoogleMapsParams($fieldsArr);
+
+$colsonpage=1;
+if($colsonpage>$recordsonpage)
+	$colsonpage=$recordsonpage;
+if($colsonpage<1)
+	$colsonpage=1;
+
+
+//	fill $rowinfo array
+	$pages = array();
+	$rowinfo = array();
+	$rowinfo["data"] = array();
+	if($eventObj->exists("ListFetchArray"))
+		$data = $eventObj->ListFetchArray($rs, $pageObject);
+	else
+		$data = $cipherer->DecryptFetchedArray($rs);
+
+	while($data)
+	{
+		if($eventObj->exists("BeforeProcessRowPrint"))
+		{
+			if(!$eventObj->BeforeProcessRowPrint($data, $pageObject))
+			{
+				if($eventObj->exists("ListFetchArray"))
+					$data = $eventObj->ListFetchArray($rs, $pageObject);
+				else
+					$data = $cipherer->DecryptFetchedArray($rs);
+				continue;
+			}
+		}
+		break;
+	}
+	
+	while($data && ($all || $recno<=$PageSize))
+	{
+		$row = array();
+		$row["grid_record"] = array();
+		$row["grid_record"]["data"] = array();
+		for($col=1;$data && ($all || $recno<=$PageSize) && $col<=1;$col++)
+		{
+			$record = array();
+			$recno++;
+			$records++;
+			$keylink="";
+			$keylink.="&key1=".htmlspecialchars(rawurlencode(@$data["id"]));
+
+//	id - 
+			$record["id_value"] = $pageObject->showDBValue("id", $data, $keylink);
+			$record["id_class"] = $pageObject->fieldClass("id");
+//	'Código Único de Identificación' - 
+			$record["_C_digo__nico_de_Identificaci_n__value"] = $pageObject->showDBValue("'Código Único de Identificación'", $data, $keylink);
+			$record["_C_digo__nico_de_Identificaci_n__class"] = $pageObject->fieldClass("'Código Único de Identificación'");
+//	'Paciente' - 
+			$record["_Paciente__value"] = $pageObject->showDBValue("'Paciente'", $data, $keylink);
+			$record["_Paciente__class"] = $pageObject->fieldClass("'Paciente'");
+//	'NIT' - 
+			$record["_NIT__value"] = $pageObject->showDBValue("'NIT'", $data, $keylink);
+			$record["_NIT__class"] = $pageObject->fieldClass("'NIT'");
+//	'Dirección' - 
+			$record["_Direcci_n__value"] = $pageObject->showDBValue("'Dirección'", $data, $keylink);
+			$record["_Direcci_n__class"] = $pageObject->fieldClass("'Dirección'");
+//	'Teléfono' - 
+			$record["_Tel_fono__value"] = $pageObject->showDBValue("'Teléfono'", $data, $keylink);
+			$record["_Tel_fono__class"] = $pageObject->fieldClass("'Teléfono'");
+//	'Código de consulta' - 
+			$record["_C_digo_de_consulta__value"] = $pageObject->showDBValue("'Código de consulta'", $data, $keylink);
+			$record["_C_digo_de_consulta__class"] = $pageObject->fieldClass("'Código de consulta'");
+//	'fecha' - Short Date
+			$record["_fecha__value"] = $pageObject->showDBValue("'fecha'", $data, $keylink);
+			$record["_fecha__class"] = $pageObject->fieldClass("'fecha'");
+//	'Tipo de consulta' - 
+			$record["_Tipo_de_consulta__value"] = $pageObject->showDBValue("'Tipo de consulta'", $data, $keylink);
+			$record["_Tipo_de_consulta__class"] = $pageObject->fieldClass("'Tipo de consulta'");
+//	'Médico Encargado' - 
+			$record["_M_dico_Encargado__value"] = $pageObject->showDBValue("'Médico Encargado'", $data, $keylink);
+			$record["_M_dico_Encargado__class"] = $pageObject->fieldClass("'Médico Encargado'");
+//	'Número de Factura' - 
+			$record["_N_mero_de_Factura__value"] = $pageObject->showDBValue("'Número de Factura'", $data, $keylink);
+			$record["_N_mero_de_Factura__class"] = $pageObject->fieldClass("'Número de Factura'");
+//	'Costo de los Servicios' - Number
+			$record["_Costo_de_los_Servicios__value"] = $pageObject->showDBValue("'Costo de los Servicios'", $data, $keylink);
+			$record["_Costo_de_los_Servicios__class"] = $pageObject->fieldClass("'Costo de los Servicios'");
+//	'Total Abonado' - Number
+			$record["_Total_Abonado__value"] = $pageObject->showDBValue("'Total Abonado'", $data, $keylink);
+			$record["_Total_Abonado__class"] = $pageObject->fieldClass("'Total Abonado'");
+			if($col<$colsonpage)
+				$record["endrecord_block"] = true;
+			$record["grid_recordheader"] = true;
+			$record["grid_vrecord"] = true;
+			
+			if($eventObj->exists("BeforeMoveNextPrint"))
+				$eventObj->BeforeMoveNextPrint($data,$row,$record, $pageObject);
+				
+			$row["grid_record"]["data"][] = $record;
+			
+			if($eventObj->exists("ListFetchArray"))
+				$data = $eventObj->ListFetchArray($rs, $pageObject);
+			else
+				$data = $cipherer->DecryptFetchedArray($rs);
+				
+			while($data)
+			{
+				if($eventObj->exists("BeforeProcessRowPrint"))
+				{
+					if(!$eventObj->BeforeProcessRowPrint($data, $pageObject))
+					{
+						if($eventObj->exists("ListFetchArray"))
+							$data = $eventObj->ListFetchArray($rs, $pageObject);
+						else
+							$data = $cipherer->DecryptFetchedArray($rs);
+						continue;
+					}
+				}
+				break;
+			}
+		}
+		if($col <= $colsonpage)
+		{
+			$row["grid_record"]["data"][count($row["grid_record"]["data"])-1]["endrecord_block"] = false;
+		}
+		$row["grid_rowspace"]=true;
+		$row["grid_recordspace"] = array("data"=>array());
+		for($i=0;$i<$colsonpage*2-1;$i++)
+			$row["grid_recordspace"]["data"][]=true;
+		
+		$rowinfo["data"][]=$row;
+		
+		if($all && $records>=30)
+		{
+			$page=array("grid_row" =>$rowinfo);
+			$page["pageno"]=$pageindex;
+			$pageindex++;
+			$pages[] = $page;
+			$records=0;
+			$rowinfo=array();
+		}
+		
+	}
+	if(count($rowinfo))
+	{
+		$page=array("grid_row" =>$rowinfo);
+		if($all)
+			$page["pageno"]=$pageindex;
+		$pages[] = $page;
+	}
+	
+	for($i=0;$i<count($pages);$i++)
+	{
+	 	if($i<count($pages)-1)
+			$pages[$i]["begin"]="<div name=page class=printpage>";
+		else
+		    $pages[$i]["begin"]="<div name=page>";
+			
+		$pages[$i]["end"]="</div>";
+	}
+
+	$page = array();
+	$page["data"] = &$pages;
+	$xt->assignbyref("page",$page);
+
+	
+
+$strSQL = $_SESSION[$strTableName."_sql"];
+
+$isPdfView = true;
+$hasEvents = false;
+if ($pageObject->pSet->isUsebuttonHandlers() || $isPdfView || $hasEvents)
+{
+	$pageObject->body["begin"] .="<script type=\"text/javascript\" src=\"include/loadfirst.js\"></script>\r\n";
+		$pageObject->body["begin"] .= "<script type=\"text/javascript\" src=\"include/lang/".getLangFileName(mlang_getcurrentlang()).".js\"></script>";
+	
+	$pageObject->fillSetCntrlMaps();
+	$pageObject->body['end'] .= '<script>';
+	$pageObject->body['end'] .= "window.controlsMap = ".my_json_encode($pageObject->controlsHTMLMap).";";
+	$pageObject->body['end'] .= "window.viewControlsMap = ".my_json_encode($pageObject->viewControlsHTMLMap).";";
+	$pageObject->body['end'] .= "window.settings = ".my_json_encode($pageObject->jsSettings).";";
+	$pageObject->body['end'] .= '</script>';
+		$pageObject->body["end"] .= "<script language=\"JavaScript\" src=\"include/runnerJS/RunnerAll.js\"></script>\r\n";
+	$pageObject->addCommonJs();
+}
+
+$pagename = $_SERVER["REQUEST_URI"];
+if(!$pagename)
+{
+	$pagename=basename(__file__);
+	$params = "";
+	foreach($_GET as $k=>$v)
+	{
+		if(strlen($params))
+			$params.="&";
+		$params.=rawurlencode($k)."=".rawurlencode($v);
+	}
+	if(strlen($params))
+		$pagename.="?".$params;
+}
+if(strpos($pagename,"?")===false)
+	$pagename.="?pdf=1";
+else
+	$pagename.="&pdf=1";
+
+
+if(!postvalue("pdf"))
+{
+		if(!GetGlobalData("openPDFFileDirectly", true))
+		$pageObject->AddJSFile("include/pdf.js");
+	else 
+		$pageObject->AddJSFile("include/pdfinitlink.js");
+	$xt->assign("pdflink_block",true);
+	$pageObject->body["end"] .= "<script>
+		var page = '".jsreplace($pagename)."';
+		</script>";
+}
+//$pdf_block = array("begin"=>"<div id=progress>", "end"=>"</div>");
+//if(count($pages))
+//	$pages[0]["pdf_block"]=&$pdf_block;
+
+if ($pageObject->pSet->isUsebuttonHandlers() || $isPdfView || $hasEvents)
+	$pageObject->body["end"] .= "<script>".$pageObject->PrepareJS()."</script>";
+
+$xt->assignbyref("body",$pageObject->body);
+$xt->assign("grid_block",true);
+
+$xt->assign("id_fieldheadercolumn",true);
+$xt->assign("id_fieldheader",true);
+$xt->assign("id_fieldcolumn",true);
+$xt->assign("id_fieldfootercolumn",true);
+$xt->assign("_C_digo__nico_de_Identificaci_n__fieldheadercolumn",true);
+$xt->assign("_C_digo__nico_de_Identificaci_n__fieldheader",true);
+$xt->assign("_C_digo__nico_de_Identificaci_n__fieldcolumn",true);
+$xt->assign("_C_digo__nico_de_Identificaci_n__fieldfootercolumn",true);
+$xt->assign("_Paciente__fieldheadercolumn",true);
+$xt->assign("_Paciente__fieldheader",true);
+$xt->assign("_Paciente__fieldcolumn",true);
+$xt->assign("_Paciente__fieldfootercolumn",true);
+$xt->assign("_NIT__fieldheadercolumn",true);
+$xt->assign("_NIT__fieldheader",true);
+$xt->assign("_NIT__fieldcolumn",true);
+$xt->assign("_NIT__fieldfootercolumn",true);
+$xt->assign("_Direcci_n__fieldheadercolumn",true);
+$xt->assign("_Direcci_n__fieldheader",true);
+$xt->assign("_Direcci_n__fieldcolumn",true);
+$xt->assign("_Direcci_n__fieldfootercolumn",true);
+$xt->assign("_Tel_fono__fieldheadercolumn",true);
+$xt->assign("_Tel_fono__fieldheader",true);
+$xt->assign("_Tel_fono__fieldcolumn",true);
+$xt->assign("_Tel_fono__fieldfootercolumn",true);
+$xt->assign("_C_digo_de_consulta__fieldheadercolumn",true);
+$xt->assign("_C_digo_de_consulta__fieldheader",true);
+$xt->assign("_C_digo_de_consulta__fieldcolumn",true);
+$xt->assign("_C_digo_de_consulta__fieldfootercolumn",true);
+$xt->assign("_fecha__fieldheadercolumn",true);
+$xt->assign("_fecha__fieldheader",true);
+$xt->assign("_fecha__fieldcolumn",true);
+$xt->assign("_fecha__fieldfootercolumn",true);
+$xt->assign("_Tipo_de_consulta__fieldheadercolumn",true);
+$xt->assign("_Tipo_de_consulta__fieldheader",true);
+$xt->assign("_Tipo_de_consulta__fieldcolumn",true);
+$xt->assign("_Tipo_de_consulta__fieldfootercolumn",true);
+$xt->assign("_M_dico_Encargado__fieldheadercolumn",true);
+$xt->assign("_M_dico_Encargado__fieldheader",true);
+$xt->assign("_M_dico_Encargado__fieldcolumn",true);
+$xt->assign("_M_dico_Encargado__fieldfootercolumn",true);
+$xt->assign("_N_mero_de_Factura__fieldheadercolumn",true);
+$xt->assign("_N_mero_de_Factura__fieldheader",true);
+$xt->assign("_N_mero_de_Factura__fieldcolumn",true);
+$xt->assign("_N_mero_de_Factura__fieldfootercolumn",true);
+$xt->assign("_Costo_de_los_Servicios__fieldheadercolumn",true);
+$xt->assign("_Costo_de_los_Servicios__fieldheader",true);
+$xt->assign("_Costo_de_los_Servicios__fieldcolumn",true);
+$xt->assign("_Costo_de_los_Servicios__fieldfootercolumn",true);
+$xt->assign("_Total_Abonado__fieldheadercolumn",true);
+$xt->assign("_Total_Abonado__fieldheader",true);
+$xt->assign("_Total_Abonado__fieldcolumn",true);
+$xt->assign("_Total_Abonado__fieldfootercolumn",true);
+
+	$record_header=array("data"=>array());
+	$record_footer=array("data"=>array());
+	for($i=0;$i<$colsonpage;$i++)
+	{
+		$rheader=array();
+		$rfooter=array();
+		if($i<$colsonpage-1)
+		{
+			$rheader["endrecordheader_block"]=true;
+			$rfooter["endrecordheader_block"]=true;
+		}
+		$record_header["data"][]=$rheader;
+		$record_footer["data"][]=$rfooter;
+	}
+	$xt->assignbyref("record_header",$record_header);
+	$xt->assignbyref("record_footer",$record_footer);
+	$xt->assign("grid_header",true);
+	$xt->assign("grid_footer",true);
+
+if($eventObj->exists("BeforeShowPrint"))
+	$eventObj->BeforeShowPrint($xt,$pageObject->templatefile, $pageObject);
+
+if(!postvalue("pdf"))
+	$xt->display($pageObject->templatefile);
+else
+{
+	$xt->load_template($pageObject->templatefile);
+	$page = $xt->fetch_loaded();
+	$pagewidth=postvalue("width")*1.05;
+	$pageheight=postvalue("height")*1.05;
+	$landscape=false;
+		if($pagewidth>$pageheight)
+		{
+			$landscape=true;
+			if($pagewidth/$pageheight<297/210)
+				$pagewidth = 297/210*$pageheight;
+		}
+		else
+		{
+			if($pagewidth/$pageheight<210/297)
+				$pagewidth = 210/297*$pageheight;
+		}
+	include("plugins/page2pdf.php");
+}
+?>

@@ -1,0 +1,294 @@
+<!doctype html>
+<html  {$html_attrs}>
+	<head>
+		<title>{$pagetitle}</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=7">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link REL="stylesheet" href="styles/default.css" type="text/css">
+		{BEGIN rtlCSS}
+		<link REL="stylesheet" href="styles/defaultRTL.css" type="text/css">
+		{END rtlCSS}
+		{BEGIN styleCSSFiles}
+		<link REL="stylesheet" href="{$stylepath}" type="text/css">
+		{END styleCSSFiles}
+		{BEGIN pageCSSFiles}
+		<link REL="stylesheet" href="{$pagestylepath}" type="text/css">
+		{END pageCSSFiles}
+		<!--[if IE]>
+			<link REL="stylesheet" href="styles/defaultIE.css" type="text/css">
+			{BEGIN IEcssFiles}
+			<link REL="stylesheet" href="{$stylepathIE}" type="text/css">
+			{END IEcssFiles}
+		<![endif]-->
+	</head>
+	
+	<body class="{$stylename}" {$bodyattrs}>
+	{BEGIN body}
+		{$header}
+		<table   cellpadding="0" class="runner-toptable">
+			<tr class="runner-header">
+				<td class="runner-top" colspan=3>
+					
+
+{BEGIN container_master}
+<table class="runner-c runner-c-master" cellpadding="0" >
+<tr class="{$cheaderclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+{BEGIN mastertable_block}
+<td  class="runner-cc runner-bl runner-b-masterinfoprint" {$brickclass_masterinfoprint}><span>{$showmasterfile}
+</span></td>
+{END mastertable_block}
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_master}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_master}
+
+
+
+{BEGIN container_pdf}
+<table class="runner-c runner-c-pdf" cellpadding="0" >
+<tr class="{$cheaderclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+<tr class="runner-row style1">
+<td class="runner-cl"></td>
+<td class="runner-cc">
+<table border="0" cellpadding="0" class="runner-hc">
+<tr>
+
+
+<td  class="runner-cc runner-bl runner-b-printpdf" {$brickclass_printpdf}><span>{BEGIN pdflink_block}
+<a href="#" class=pdflink {$pdflink_attrs}>Vista PDF</a>
+{END pdflink_block}
+</span></td>
+
+
+<td class="runner-cc filler"></td>
+</tr>
+</table></td>
+<td class="runner-cr"></td>
+</tr>
+
+<tr class="{$cfooterclass_pdf}">
+<td class="runner-cl"><img src="images/spacer.gif"></td>
+<td class="runner-cc"></td><td class="runner-cr"><img src="images/spacer.gif"></td>
+</tr>
+</table>
+{END container_pdf}
+
+
+				</td>
+			</tr>
+			<tr class="runner-body">
+				
+				<td class="runner-left {$blockclass_left}" >
+					
+				</td>	
+				
+				<td class="runner-center {$blockclass_center}">
+					
+
+{BEGIN container_grid}
+
+
+{BEGIN grid_block}
+{BEGIN page}
+<h1>Proveedores</h1>
+<span>
+{BEGIN page_number}
+Página {$pageno} / {$maxpages} 
+{END page_number}
+</span>
+
+	<div class="runner-s-grid">	
+	<table class="runner-c runner-c-grid" cellpadding="0">
+		<thead>
+		{BEGIN grid_header}
+		<tr class="runner-toprow style1">
+			<td class="runner-cl"><img src="images/spacer.gif"></td>
+			{BEGIN record_header}
+					{BEGIN nit_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN nit_fieldheader}
+	<b>NIT</b>
+	{END nit_fieldheader}
+</th>
+{END nit_fieldheadercolumn}
+	{BEGIN nombre_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN nombre_fieldheader}
+	<b>Nombre</b>
+	{END nombre_fieldheader}
+</th>
+{END nombre_fieldheadercolumn}
+	{BEGIN direccion_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN direccion_fieldheader}
+	<b>Direccion</b>
+	{END direccion_fieldheader}
+</th>
+{END direccion_fieldheadercolumn}
+	{BEGIN municipio_id_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN municipio_id_fieldheader}
+	<b>Municipio</b>
+	{END municipio_id_fieldheader}
+</th>
+{END municipio_id_fieldheadercolumn}
+	{BEGIN telefono_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN telefono_fieldheader}
+	<b>Telefono</b>
+	{END telefono_fieldheader}
+</th>
+{END telefono_fieldheadercolumn}
+	{BEGIN descripcion_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN descripcion_fieldheader}
+	<b>Descripcion</b>
+	{END descripcion_fieldheader}
+</th>
+{END descripcion_fieldheadercolumn}
+	{BEGIN saldo_fieldheadercolumn}
+<th class="runner-cc">
+	{BEGIN saldo_fieldheader}
+	<b>Saldo</b>
+	{END saldo_fieldheader}
+</th>
+{END saldo_fieldheadercolumn}
+		
+			{END record_header}
+			<td class="runner-cr"><img src="images/spacer.gif"></td>
+			{BEGIN endrecordheader_block}
+			<td class="runner-cs">&nbsp;</td>
+			{END endrecordheader_block}
+		</tr>
+	{END grid_header}
+		</thead>
+		<tbody>	
+		{BEGIN grid_row}
+	<tr class="runner-row style1" {$rowattrs} {$rowstyle} {$rowstyle}>
+		<td class="runner-cl"></td>
+		{BEGIN grid_record}
+				{BEGIN nit_fieldcolumn}
+<td  class="runner-cc {$nit_class}" {$nit_style}>
+	{$nit_value}
+</td>
+{END nit_fieldcolumn}
+	{BEGIN nombre_fieldcolumn}
+<td  class="runner-cc {$nombre_class}" {$nombre_style}>
+	{$nombre_value}
+</td>
+{END nombre_fieldcolumn}
+	{BEGIN direccion_fieldcolumn}
+<td  class="runner-cc {$direccion_class}" {$direccion_style}>
+	{$direccion_value}
+</td>
+{END direccion_fieldcolumn}
+	{BEGIN municipio_id_fieldcolumn}
+<td  class="runner-cc {$municipio_id_class}" {$municipio_id_style}>
+	{$municipio_id_value}
+</td>
+{END municipio_id_fieldcolumn}
+	{BEGIN telefono_fieldcolumn}
+<td  class="runner-cc {$telefono_class}" {$telefono_style}>
+	{$telefono_value}
+</td>
+{END telefono_fieldcolumn}
+	{BEGIN descripcion_fieldcolumn}
+<td  class="runner-cc {$descripcion_class}" {$descripcion_style}>
+	{$descripcion_value}
+</td>
+{END descripcion_fieldcolumn}
+	{BEGIN saldo_fieldcolumn}
+<td  class="runner-cc {$saldo_class}" {$saldo_style}>
+	{$saldo_value}
+</td>
+{END saldo_fieldcolumn}
+
+		{END grid_record}
+		<td class="runner-cr"></td>
+		{BEGIN endrecord_block}
+		<td class="runner-cs">&nbsp;</td>
+		{END endrecord_block}
+	</tr>
+{END grid_row}
+										
+								<tr class="runner-bottomrow style1">
+									<td class="runner-cl"><img src="images/spacer.gif"></td>
+									{BEGIN record_footer}
+									{BEGIN nit_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END nit_fieldfootercolumn}
+{BEGIN nombre_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END nombre_fieldfootercolumn}
+{BEGIN direccion_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END direccion_fieldfootercolumn}
+{BEGIN municipio_id_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END municipio_id_fieldfootercolumn}
+{BEGIN telefono_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END telefono_fieldfootercolumn}
+{BEGIN descripcion_fieldfootercolumn}
+<td class="runner-cc "></td>
+{END descripcion_fieldfootercolumn}
+{BEGIN saldo_fieldfootercolumn}
+<td class="runner-cc runner-clast"></td>
+{END saldo_fieldfootercolumn}
+
+									{END record_footer}
+									<td class="runner-cr"><img src="images/spacer.gif"></td>
+									{BEGIN endrecordtotals_block}
+									<td class="runner-cs"></td>
+									{END endrecordtotals_block}
+								</tr>
+
+		</tbody>
+	</table>
+</div>	
+{END page}
+
+{END grid_block}
+
+
+
+{END container_grid}
+
+
+				</td>	
+
+				<td class="runner-right {$blockclass_right}">
+					
+				</td>	
+			</tr>
+			<tr class="runner-footer">
+				<td class="runner-bottom" colspan=3>
+					<!--%%bottom%%-->
+				</td>
+			</tr>
+		</table>
+		{$footer}
+	{END body}
+	</body>
+</html>
